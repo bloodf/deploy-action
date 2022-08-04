@@ -15,14 +15,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/javascript-template.git"
+    "url": "git+https://github.com/bloodf/deployment-action.git"
   },
   "keywords": [
     "actions",
     "node",
     "setup"
   ],
-  "author": "Chris Norman",
+  "author": {
+    "name": "Heitor Ramon Ribeiro",
+    "email": "heitor.ramon@gmail.com",
+    "url": "https://heitor.co"
+  },
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.8.2",
