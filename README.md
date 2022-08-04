@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: bloodf/github-deploy-action@master
+      - uses: bloodf/github-deploy-action@v1
         name: Create GitHub deployment
         id: deployment
         with:
@@ -54,7 +54,7 @@ jobs:
 | `initial-status`         | (Optional) Initial status for the deployment. Must be one of the [accepted strings](https://developer.github.com/v3/repos/deployments/#create-a-deployment-status)                                                                                                                                                                                                                                            |
 | `repo`                   | (Optional) A custom repository to create the deployment for. Defaults to the repo the action is running in.                                                                                                                                                                                                                                                                                                   |
 | `owner`                  | A custom owner to create the deployment for. Defaults to the repo owner the action is running in.                                                                                                                                                                                                                                                                                                             |
-| `token`                  | GitHub token                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `token`                  | (Optional - default from GitHub action) GitHub token                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `log-url`                | (Optional) Sets the URL for deployment output                                                                                                                                                                                                                                                                                                                                                                 |
 | `description`            | (Optional) Descriptive message about the deployment                                                                                                                                                                                                                                                                                                                                                           |
 | `environment`            | (Optional - default is `production`) Name for the target deployment environment                                                                                                                                                                                                                                                                                                                               |
@@ -84,7 +84,7 @@ Heads up! Currently, there is a GitHub Actions limitation where events fired _in
 
 > While not ideal, if you use a token that is not the Action's GITHUB_TOKEN, this will work. I define a secret called GITHUB_DEPLOY_TOKEN and use that for API calls.
 
-A workaround for this is to create the Deployment, perform the deployment steps, and then trigger an action to create a Deployment Status using my other action: [bloodf/deployment-status](https://github.com/bloodf/deployment-status).
+A workaround for this is to create the Deployment, perform the deployment steps, and then trigger an action to create a Deployment Status using my other action: [bloodf/github-deploy-status](https://github.com/bloodf/github-deploy-status).
 
 For example:
 
@@ -102,11 +102,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: bloodf/github-deploy-action@master
+      - uses: bloodf/github-deploy-action@v1
         name: Create GitHub deployment
         id: deployment
         with:
-          token: '${{ github.token }}'
           environment-url: http://my-app-url.com
           environment: production # or ${{env.ENVIRONMENT}}
 
@@ -116,18 +115,16 @@ jobs:
 
       - name: Update deployment status (success)
         if: success()
-        uses: bloodf/deployment-status@master
+        uses: bloodf/github-deploy-status@v1
         with:
-          token: '${{ github.token }}'
           environment-url: ${{ steps.deployment.outputs.environment_url }}
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
           state: 'success'
 
       - name: Update deployment status (failure)
         if: failure()
-        uses: bloodf/deployment-status@master
+        uses: bloodf/github-deploy-status@v1
         with:
-          token: '${{ github.token }}'
           environment-url: ${{ steps.deployment.outputs.environment_url }}
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
           state: 'failure'
