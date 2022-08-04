@@ -35,15 +35,15 @@ jobs:
       deployments: write
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
 
-      - uses: chrnorm/deployment-action@v2
+      - uses: bloodf/deployment-action@master
         name: Create GitHub deployment
         id: deployment
         with:
           token: '${{ github.token }}'
           environment-url: http://my-app-url.com
-          environment: production
+          environment: production # or ${{env.ENVIRONMENT}}
         # more steps below where you run your deployment scripts inside the same action
 ```
 
@@ -84,7 +84,7 @@ Heads up! Currently, there is a GitHub Actions limitation where events fired _in
 
 > While not ideal, if you use a token that is not the Action's GITHUB_TOKEN, this will work. I define a secret called GITHUB_DEPLOY_TOKEN and use that for API calls.
 
-A workaround for this is to create the Deployment, perform the deployment steps, and then trigger an action to create a Deployment Status using my other action: [chrnorm/deployment-status](https://github.com/chrnorm/deployment-status).
+A workaround for this is to create the Deployment, perform the deployment steps, and then trigger an action to create a Deployment Status using my other action: [bloodf/deployment-status](https://github.com/bloodf/deployment-status).
 
 For example:
 
@@ -100,15 +100,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
 
-      - uses: chrnorm/deployment-action@v2
+      - uses: bloodf/deployment-action@master
         name: Create GitHub deployment
         id: deployment
         with:
           token: '${{ github.token }}'
           environment-url: http://my-app-url.com
-          environment: production
+          environment: production # or ${{env.ENVIRONMENT}}
 
       - name: Deploy my app
         run: |
@@ -116,7 +116,7 @@ jobs:
 
       - name: Update deployment status (success)
         if: success()
-        uses: chrnorm/deployment-status@v2
+        uses: bloodf/deployment-status@master
         with:
           token: '${{ github.token }}'
           environment-url: ${{ steps.deployment.outputs.environment_url }}
@@ -125,14 +125,10 @@ jobs:
 
       - name: Update deployment status (failure)
         if: failure()
-        uses: chrnorm/deployment-status@v2
+        uses: bloodf/deployment-status@master
         with:
           token: '${{ github.token }}'
           environment-url: ${{ steps.deployment.outputs.environment_url }}
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
           state: 'failure'
 ```
-
-## Breaking changes
-
-`v2` of this action removes the `target_url` input and replaces it with the `environment_url` and `log_url` inputs to match GitHub's API. `v2` also standardises on using `kebab-case` rather than `snake_case` for inputs to match GitHub's built-in actions.
