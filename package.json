@@ -1,6 +1,6 @@
 {
-  "name": "deploy-action",
-  "version": "0.1.0",
+  "name": "github-deploy-action",
+  "version": "1.0.0",
   "private": true,
   "description": "Creates GitHub deployments",
   "main": "lib/main.js",
@@ -15,12 +15,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bloodf/deploy-action.git"
+    "url": "git+https://github.com/bloodf/github-deploy-action.git"
   },
   "keywords": [
-    "actions",
-    "node",
-    "setup"
+    "deploy",
+    "gitub"
   ],
   "author": {
     "name": "Heitor Ramon Ribeiro",

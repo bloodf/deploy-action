@@ -1,4 +1,4 @@
-# deploy-action
+# github-deploy-action
 
 A GitHub action to create [Deployments](https://developer.github.com/v3/repos/deployments/) as part of your GitHub CI workflows.
 
@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: bloodf/deploy-action@master
+      - uses: bloodf/github-deploy-action@master
         name: Create GitHub deployment
         id: deployment
         with:
@@ -59,7 +59,7 @@ jobs:
 | `description`            | (Optional) Descriptive message about the deployment                                                                                                                                                                                                                                                                                                                                                           |
 | `environment`            | (Optional - default is `production`) Name for the target deployment environment                                                                                                                                                                                                                                                                                                                               |
 | `environment-url`        | (Optional) Sets the URL for accessing your environment                                                                                                                                                                                                                                                                                                                                                        |
-| `auto-merge`             | (Optional - default is `false`) Whether to attempt to auto-merge the default branch into the branch that the action is running on if set to `"true"`. More details in the [GitHub deployments API](https://developer.github.com/v3/repos/deployments/#parameters-1). Warning - setting this to `"true"` has caused this action to [fail in some cases](https://github.com/chrnorm/deploy-action/issues/1) |
+| `auto-merge`             | (Optional - default is `false`) Whether to attempt to auto-merge the default branch into the branch that the action is running on if set to `"true"`. More details in the [GitHub deployments API](https://developer.github.com/v3/repos/deployments/#parameters-1). Warning - setting this to `"true"` has caused this action to [fail in some cases](https://github.com/chrnorm/github-deploy-action/issues/1) |
 | `ref`                    | (Optional - default is `GITHUB_HEAD_REF` if set and `GITHUB_REF` otherwise) The ref to deploy. This can be a branch, tag, or SHA. More details in the [GitHub deployments API](https://developer.github.com/v3/repos/deployments/#parameters-1).                                                                                                                                                              |
 | `sha`                    | (Optional) The SHA recorded at creation time. More details in the [GitHub deployments API](https://developer.github.com/v3/repos/deployments/#parameters-1).                                                                                                                                                                                                                                                  |
 | `task`                   | (Optional) The name of the task for the deployment (e.g., `deploy` or `deploy:migrations`). Defaults to `deploy`. More details in the [GitHub deployments API](https://developer.github.com/v3/repos/deployments/#parameters-1).                                                                                                                                                                              |
@@ -102,7 +102,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: bloodf/deploy-action@master
+      - uses: bloodf/github-deploy-action@master
         name: Create GitHub deployment
         id: deployment
         with:

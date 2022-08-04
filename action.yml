@@ -1,4 +1,4 @@
-name: 'Deploy Action'
+name: 'GitHub Deploy Action'
 description: 'Creates a GitHub Deployment'
 author: 'bloodf'
 branding:
